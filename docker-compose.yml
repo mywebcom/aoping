@@ -1,0 +1,28 @@
+version: "3.3"
+
+services:
+  graphql:
+    build:
+      context: api
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./api:/home/ubuntu/graphql
+  db:
+    build:
+      context: postgres
+      dockerfile: Dockerfile
+    environment:
+      - POSTGRES_DEV_DB=aoping_dev
+      - POSTGRES_TEST_DB=aoping_test
+      - POSTGRES_PROD_DB=aoping_prod
+      - POSTGRES_USER=postgres
+    volumes:
+      - local-db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+volumes:
+  local-db:
+    driver: local
